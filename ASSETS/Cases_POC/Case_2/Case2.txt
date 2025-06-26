@@ -1,0 +1,60 @@
+Patient Profile
+
+Name: Michael Grant
+Age: 72
+Gender: Male
+Occupation: Retired high school principal
+Marital Status: Widower
+Children: Two adult children
+Address: 42 Maple Ave, Chicago
+Chief Complaint:
+Episodes of palpitations and shortness of breath over the past few weeks.
+
+History of Present Illness:
+Mr. Grant reports experiencing intermittent palpitations described as a “fluttering” sensation in the chest, often accompanied by mild shortness of breath. The episodes occur sporadically, without a clear trigger, and are most noticeable during light physical activity such as walking or climbing stairs. Each episode can last from a few minutes to over an hour.
+
+He sometimes feels lightheaded during these events, but he has never fainted. He denies chest pain, pressure, or tightness. There has been no fever, recent illness, weight loss, or recent travel. His appetite, sleep, and bowel habits are normal.
+
+Past Medical History:
+
+Hypertension, diagnosed 15 years ago, well controlled with medication
+Hyperlipidemia
+No known diabetes
+No history of coronary artery disease, heart failure, or prior arrhythmias
+Medications:
+
+Amlodipine 5 mg daily
+Atorvastatin 20 mg at night
+Allergies:
+
+No known drug allergies
+Family History:
+
+Father: Died of a stroke at age 68
+Mother: Had hypertension
+No known family history of arrhythmias or thromboembolic events
+Social History:
+
+Non-smoker
+Drinks 1–2 glasses of wine per week
+No recreational drug use
+Lives alone; widowed 6 years ago
+Stays active, enjoys gardening and walking, though recently has been limiting activity due to symptoms
+Review of Systems:
+
+No chest pain
+No orthopnea or paroxysmal nocturnal dyspnea
+No leg swelling
+No fever, chills, or night sweats
+No GI or urinary symptoms
+Diagnosis Context:
+The patient is experiencing paroxysmal atrial fibrillation.
+
+Main etiologies and considerations include:
+
+Long-standing hypertension
+Possible structural heart disease (e.g., left atrial enlargement)
+Increased stroke risk → CHA₂DS₂-VASc score should be calculated
+Need to assess for rate vs rhythm control strategy
+Consider initiating oral anticoagulation
+Further evaluation may include ECG, echocardiogram, and thyroid function tests

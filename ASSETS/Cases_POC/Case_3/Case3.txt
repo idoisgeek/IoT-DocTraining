@@ -1,0 +1,66 @@
+Patient Profile
+
+Name: Robert “Bob” Hill
+Age: 76
+Gender: Male
+Occupation: Retired auto mechanic
+Marital Status: Married
+Children: Three adult children
+Address: 118 Oakwood Drive, Cleveland, OH
+Chief Complaint:
+Progressive shortness of breath on exertion over the past 6 months.
+
+History of Present Illness:
+Mr. Hill reports feeling increasingly short of breath when performing everyday activities such as climbing stairs or doing yard work. The breathlessness has worsened gradually over the last 6 months. He now avoids physical tasks he used to do easily.
+
+He has had two brief episodes of chest discomfort during exertion, described as a tight sensation, relieved by rest, and not radiating. In one instance while mowing the lawn, he felt dizzy and nearly fainted. He also reports occasional lightheadedness, especially when standing up quickly or after physical effort.
+
+He denies palpitations, orthopnea, paroxysmal nocturnal dyspnea, leg swelling, or persistent cough. No recent fever, weight loss, or infections. His appetite and bowel habits remain unchanged.
+
+Past Medical History:
+
+Hypertension
+Hyperlipidemia
+No known diabetes
+No history of coronary artery disease, heart failure, or valvular disease diagnosis
+Medications:
+
+Amlodipine 5 mg daily
+Atorvastatin 20 mg nightly
+Aspirin 81 mg daily
+Allergies:
+
+No known drug allergies
+Family History:
+
+Father: Died of myocardial infarction at age 70
+Mother: Had hypertension
+No known family history of structural heart disease or congenital valve disorders
+Social History:
+
+Ex-smoker, quit 10 years ago (previously 1 pack/day for 40 years)
+Drinks alcohol occasionally
+Married, lives with his wife
+Previously very active, enjoys working on cars and gardening, though he has slowed down due to symptoms
+Review of Systems:
+
+No orthopnea, PND, or edema
+No palpitations or syncope (except near-syncope during exertion)
+No cough, fever, or chills
+No GI or urinary complaints
+Diagnosis Context:
+The patient has severe aortic stenosis, likely from degenerative calcification, the most common cause in elderly patients.
+
+Key clinical features suggesting severe aortic stenosis:
+
+Progressive exertional dyspnea
+Exertional angina (chest discomfort with activity)
+Exertional near-syncope
+Likely auscultation finding: Harsh mid-systolic murmur at the right 2nd intercostal space, radiating to the carotids
+Pulsus parvus et tardus (delayed, diminished carotid upstroke)
+Further evaluation should include:
+
+Echocardiogram (to assess valve area and gradient)
+ECG (may show LVH)
+Chest X-ray (for cardiac silhouette and pulmonary congestion)
+Surgical referral for valve replacement if symptomatic with severe stenosis

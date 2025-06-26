@@ -1,0 +1,56 @@
+Patient Profile
+
+Name: Jennifer Aniston
+Age: 30
+Gender: Female
+Occupation: Actress
+Marital Status: Married
+Children: Two
+Address: Broadway St., Los Angeles
+Chief Complaint:
+Pain and swelling in the left leg, started two days ago. She has never experienced this before.
+
+History of Present Illness:
+Jennifer reports a gradual onset of pain and swelling in her left leg over the past two days. The leg feels heavy and tight, especially around the calf. The discomfort worsens when she stands or walks, and improves slightly when she rests with the leg elevated. There’s no redness or itching, and she has not noticed any bruising or trauma to the leg. She has not taken any medication for the pain.
+
+She has no recent travel, surgery, immobilization, or injuries.
+She denies fever, night sweats, weight loss, or loss of appetite.
+She has no chest pain, shortness of breath, or palpitations.
+She is planning to conceive in the near future.
+
+Past Medical History:
+
+Generally healthy
+No chronic illnesses
+History of 3 spontaneous abortions between weeks 8–10 (no known cause identified)
+Medications:
+
+None currently
+Allergies:
+
+No known drug allergies
+Family History:
+
+No known hereditary illnesses, clotting disorders, or autoimmune conditions
+Parents and siblings are healthy
+Social History:
+
+Non-smoker
+Drinks alcohol occasionally (e.g., at social events)
+No recreational drug use
+Lives with spouse and two young children
+Maintains an active lifestyle; occasionally exercises between acting roles
+No recent stressors or significant changes in routine
+Gynecological/Obstetric History:
+
+Gravida 5, Para 2, Abortus 3 (all spontaneous, early miscarriages)
+Regular menstrual cycles
+No current contraception
+Planning to become pregnant soon
+Red Flags & Relevant Differentials (for the interviewer to consider):
+
+Unprovoked DVT in a young woman → evaluate for:
+Inherited thrombophilia (e.g., Factor V Leiden, Protein C/S deficiency)
+Acquired thrombophilia → Antiphospholipid Antibody Syndrome (APS)
+Nephrotic Syndrome
+Underlying malignancy (less likely but must be ruled out)
