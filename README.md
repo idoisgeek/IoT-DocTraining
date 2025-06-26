@@ -15,6 +15,7 @@ Real-time diagnostic feedback to support learning and skill improvement.
 
 ## **Folder Description:**
 ESP32/ — Code for ESP32 to read remote Bluetooth tag IDs.
+
 RPI/ — Two implementations:
 BT remote tag reading using ESP32.
 Wired version for reading and playing sounds locally.
