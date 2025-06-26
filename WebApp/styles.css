@@ -1,0 +1,1060 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f9fafb;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 0 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.menu-item {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: #34495e;
+}
+
+.menu-item.active {
+    background-color: rgb(var(--color-primary-600, 2, 132, 199));
+    color: white;
+}
+
+.icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.content {
+    flex: 1;
+    padding: 40px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content-section {
+    max-width: 1200px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.content-section h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Cases Grid */
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    padding: 15px 0;
+}
+
+.case-button {
+    background: linear-gradient(135deg, rgba(var(--color-primary-600, 79, 70, 229), 0.9), rgba(var(--color-primary-700, 67, 56, 202), 0.9));
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 1/1;
+    position: relative;
+    overflow: hidden;
+}
+
+.case-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    border-radius: inherit;
+}
+
+.case-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.case-button .icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.case-button .name {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Search and Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    width: 16rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--color-primary-500, 99, 102, 241), 0.5);
+    border-color: rgba(var(--color-primary-500, 99, 102, 241), 1);
+}
+
+.add-case-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.add-case-button:hover {
+    background-color: #218838;
+}
+
+/* Case Card Actions */
+.case-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.chat-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chat-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Chat Popup */
+.chat-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    height: 80vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.chat-popup.active {
+    display: flex !important;
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.chat-header h3 {
+    margin: 0;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.close-chat:hover {
+    opacity: 0.8;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 1rem;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+    display: block !important;
+}
+
+/* Hide initial prompts */
+.message.initial-prompt {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.user-message {
+    background-color: rgba(var(--color-primary-600, 79, 70, 229), 0.9);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 0.3rem;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.assistant-message {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #1e293b;
+    align-self: flex-start;
+    border-bottom-left-radius: 0.3rem;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(229, 231, 235, 0.3);
+    align-items: flex-end;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    resize: none;
+    min-height: 2.5rem;
+    max-height: 7.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.mic-button {
+    padding: 0.5rem;
+    background-color: #f3f4f6;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mic-button:hover {
+    background-color: #e5e7eb;
+}
+
+.mic-button.recording {
+    background-color: #ef4444;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.send-button {
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.send-button:hover {
+    background-color: #2563eb;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: none;
+    background: rgba(243, 244, 246, 0.7);
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    align-self: flex-start;
+    margin-bottom: 0.75rem;
+    max-width: 60%;
+    border-bottom-left-radius: 0.3rem;
+    animation: fadeIn 0.3s ease-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: rgba(107, 114, 128, 0.8);
+    border-radius: 50%;
+    margin-right: 0.25rem;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Case Management Styles */
+.case-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.cases-list {
+    margin-top: 30px;
+}
+
+.file-controls {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+}
+
+.file-controls button {
+    background-color: #2ecc71;
+}
+
+.file-controls button:hover {
+    background-color: #27ae60;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-controls label {
+    display: inline;
+    margin-right: 10px;
+}
+
+.sort-controls select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.sort-controls select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--color-primary-500, 99, 102, 241), 0.5);
+    border-color: rgba(var(--color-primary-500, 99, 102, 241), 1);
+}
+
+.case-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid rgba(var(--color-primary-500, 99, 102, 241), 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.case-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.case-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-secondary-800);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
+}
+
+.case-prompt-container {
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.case-prompt {
+    white-space: pre-line;
+    color: var(--color-secondary-600);
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+}
+
+.expand-btn {
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.expand-btn:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Edit Case Modal Styles */
+#editCaseModal {
+    z-index: 1100;
+}
+
+#editCaseModal .modal-content {
+    max-width: 600px;
+    position: relative;
+}
+
+#editCaseForm textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: var(--color-secondary-500);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 4rem;
+    }
+    
+    .sidebar .text, 
+    .sidebar-header h2,
+    .sidebar h3,
+    .cases-history {
+        display: none;
+    }
+    
+    .menu-item {
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .icon {
+        margin-right: 0;
+    }
+
+    .cases-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+    
+    .bottom-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+}
+
+/* API Key Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active,
+.modal[style*="display: flex"] {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90%;
+    overflow: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-body {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background-color: #0069d9;
+}
+
+.modal .form-group {
+    margin-bottom: 15px;
+}
+
+.modal label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal input, .modal select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.modal small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+}
+
+.config-button {
+    @apply fixed bottom-5 right-5 bg-primary-600 text-white border-none rounded-full w-12 h-12
+           flex justify-center items-center text-xl cursor-pointer shadow-md
+           hover:bg-primary-700 transition-colors z-10;
+}
+
+/* Sync Status Styles */
+.sync-status {
+    display: none;
+}
+
+.status-indicator,
+.status-indicator.synced,
+.status-indicator.syncing,
+.status-indicator.error,
+.status-text,
+.manual-sync-link,
+.manual-sync-link:hover,
+.save-notification {
+    display: none;
+}
+
+/* Notifications */
+.save-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.97);
+    border-left: 4px solid #3b82f6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.error-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.97);
+    border-left: 4px solid #ef4444;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.save-notification p,
+.error-notification p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.dismiss-btn {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dismiss-btn:hover {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+/* API Status */
+.api-status {
+    display: flex;
+    align-items: center;
+}
+
+#apiStatusIndicator {
+    transition: background-color 0.3s ease;
+}
+
+#apiStatusIndicator.connected {
+    background-color: #10b981; /* Green */
+}
+
+#apiStatusIndicator.connecting {
+    background-color: #f59e0b; /* Yellow */
+    animation: pulse 2s infinite;
+}
+
+#apiStatusIndicator.disconnected {
+    background-color: #ef4444; /* Red */
+}
+
+/* Hide sections by default */
+.content-section {
+    display: none;
+}
+
+/* Show home section by default */
+#home {
+    display: block;
+}
+
+/* Ensure other sections are properly hidden but can be shown */
+#profile, #management {
+    display: none;
+}
+
+/* When sections are active, ensure they're visible */
+.content-section.active {
+    display: block !important;
+}
+
+/* Custom styles that extend Tailwind */
+
+:root {
+    --color-primary-50: 238, 242, 255;
+    --color-primary-100: 224, 231, 255;
+    --color-primary-200: 199, 210, 254;
+    --color-primary-300: 165, 180, 252;
+    --color-primary-400: 129, 140, 248;
+    --color-primary-500: 99, 102, 241;
+    --color-primary-600: 79, 70, 229;
+    --color-primary-700: 67, 56, 202;
+    --color-primary-800: 55, 48, 163;
+    --color-primary-900: 49, 46, 129;
+    
+    --color-secondary-50: 248, 250, 252;
+    --color-secondary-100: 241, 245, 249;
+    --color-secondary-200: 226, 232, 240;
+    --color-secondary-300: 203, 213, 225;
+    --color-secondary-400: 148, 163, 184;
+    --color-secondary-500: 100, 116, 139;
+    --color-secondary-600: 71, 85, 105;
+    --color-secondary-700: 51, 65, 85;
+    --color-secondary-800: 30, 41, 59;
+    --color-secondary-900: 15, 23, 42;
+}
+
+/* Chat popup styles */
+#speechControlBtn {
+    position: absolute;
+    top: -40px;
+    right: 10px;
+    z-index: 1000;
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#speechControlBtn:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Chat input styles */
+.chat-input textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    min-height: 40px;
+    max-height: 120px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* Session cards styling */
+.session-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid rgba(var(--color-primary-500, 99, 102, 241), 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.session-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.load-session-btn {
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.load-session-btn:hover {
+    background-color: #4338ca;
+}
+
+/* User Profile Drawer */
+.user-profile-drawer {
+    transition: transform 0.3s ease;
+}
+
+#userProfileButton {
+    width: 42px;
+    height: 42px;
+}
+
+#userProfileDrawer {
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure drawer is above other UI elements */
+#userProfileDrawer {
+    z-index: 1000;
+}
+
+/* Add custom scrollbar for the drawer content */
+#userProfileDrawer .overflow-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#userProfileDrawer .overflow-auto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#userProfileDrawer .overflow-auto::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+#userProfileDrawer .overflow-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Modal text enhancements for better contrast */
+#diagnosisModal .modal-content {
+    color: #000 !important;
+}
+
+#diagnosisModal h2,
+#diagnosisModal p,
+#diagnosisModal label {
+    color: #000 !important;
+    font-weight: 600 !important;
+}
+
+#diagnosisModal textarea {
+    color: #000 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+}
+
+#diagnosisModal .text-blue-900,
+#diagnosisModal .text-blue-800 {
+    color: #000 !important;
+} 
