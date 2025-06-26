@@ -29,7 +29,7 @@ ESP32: MFRC522, SPI, BluetoothSerial
 Raspberry Pi (RPI): pyaudio, PyQt5, MFRC522, GPIO, serial
 
 Hardware Setup:
-Refer to finalScheme.pdf for a visual connection diagram.
+![Smart Stethoscope Diagram](finalScheme.pdf)
 
 Components Used:
 
@@ -42,4 +42,4 @@ ESP Battery Shield ×1
 Li-Ion Battery for ESP ×1
 
 Project Poster:
-See Poster.pdf
+![Poster](Poster.pdf)
