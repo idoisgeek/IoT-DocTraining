@@ -25,7 +25,7 @@ Four heart sound files
 SECRETS/ — Contains OpenAI API key
 
 Libraries Used:
-ESP32: MFRC522, SPI, BluetoothSerial
+ESP32: MFRC522 = 1.4.12, BluetoothSerial = 1.1.0
 Raspberry Pi (RPI): pyaudio, PyQt5, MFRC522, GPIO, serial
 
 Hardware Setup:
