@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Case Manager</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateY(20px)', opacity: 0 },
+                            '100%': { transform: 'translateY(0)', opacity: 1 },
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            background-color: #f9fafb;
+            background-attachment: fixed;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(30, 41, 59, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans antialiased text-secondary-800">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <nav class="sidebar glass-dark text-white w-64 shrink-0 shadow-xl h-screen z-30">
+            <div class="p-6 border-b border-secondary-700/50">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Case Manager
+                </h2>
+            </div>
+            <div class="py-6">
+                <ul class="space-y-2">
+                    <li class="menu-item active px-6 py-4 flex items-center hover:bg-primary-700/50 cursor-pointer transition-all duration-300 border-l-4 border-primary-400" data-content="home">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="text">Home</span>
+                    </li>
+                    <li class="menu-item px-6 py-4 flex items-center hover:bg-primary-700/50 cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-content="management">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span class="text">Management</span>
+                    </li>
+                    <li class="menu-item px-6 py-4 flex items-center hover:bg-primary-700/50 cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-content="sessions">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <span class="text">Sessions</span>
+                    </li>
+                    <li class="menu-item px-6 py-4 flex items-center hover:bg-primary-700/50 cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-content="profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="text">About</span>
+                    </li>
+                </ul>
+            </div>
+            
+        </nav>
+        
+
+        <!-- Login Page -->
+        <div id="loginPage" class="flex flex-col justify-center items-center w-full h-screen bg-white z-50 absolute top-0 left-0">
+            <div class="bg-white/90 backdrop-blur p-8 rounded-xl shadow-lg max-w-sm w-full">
+                <h2 id="pageTitle" class="text-2xl font-bold text-center text-primary-700 mb-6">Login</h2>
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="username" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm" />
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="password" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm" />
+                    </div>
+                    <button type="submit" id="submitButton" class="w-full bg-primary-600 text-white font-bold py-2 rounded-md hover:bg-primary-700">Log In</button>
+                </form>
+                <div class="mt-4 text-center">
+                    <span id="toggleLink" class="text-primary-600 cursor-pointer">Don't have an account? Sign Up</span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Main Content -->
+        <main id="mainContent" class="hidden content flex-1 overflow-auto p-8 relative">
+            <!-- User Profile Button in Top Right -->
+            <div class="absolute top-4 right-4 z-50 flex items-center gap-2">
+                <span id="userNameDisplay" class="text-sm font-medium text-primary-700 bg-white/90 px-3 py-1.5 rounded-full shadow-sm border border-primary-100"></span>
+                <button id="userProfileButton" class="p-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 shadow-md transition-all duration-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Home Section -->
+            <div class="content-section animate-fade-in" id="home">
+                <h1 class="text-5xl font-extrabold text-secondary-800 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-800">AI Cases</h1>
+                <div class="grid grid-cols-1 gap-8">
+                    <!-- Active Cases Block -->
+                    <div class="glass rounded-2xl p-8 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <h2 class="text-xl font-bold mb-2 text-primary-700">Active Cases</h2>
+                        <p class="text-gray-600 mb-4">Manage and interact with your AI case collection.</p>
+                        <div class="cases-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="casesGrid"></div>
+                    </div>
+                    
+                    <!-- Quick Stats Block -->
+                    <div class="glass rounded-2xl p-8 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <h2 class="text-xl font-bold mb-2 text-primary-700">Quick Stats</h2>
+                        <p class="text-gray-600 mb-4">Your AI case management analytics.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white/60 rounded-lg p-4 shadow-sm">
+                                <h3 class="text-sm font-medium text-gray-500">Total Cases</h3>
+                                <p class="text-2xl font-bold text-primary-600" id="totalCases">0</p>
+                            </div>
+                            <div class="bg-white/60 rounded-lg p-4 shadow-sm">
+                                <h3 class="text-sm font-medium text-gray-500">Recent Chats</h3>
+                                <p class="text-2xl font-bold text-primary-600" id="recentChats">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
+            <!-- Management Section -->
+            <div class="content-section hidden" id="management">
+                <h1 class="text-5xl font-extrabold text-secondary-800 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-800">Case Management</h1>
+                
+                <!-- Create Case Form -->
+                <div class="glass rounded-2xl p-8 shadow-lg mb-8 animate-slide-in">
+                    <h2 class="text-2xl font-bold text-primary-700 mb-6">Create New Case</h2>
+                    <form id="caseForm" class="space-y-6">
+                        <div class="form-group">
+                            <label for="caseName" class="block text-sm font-medium text-secondary-700 mb-1">Case Name:</label>
+                            <input type="text" id="caseName" name="caseName" required 
+                                class="w-full px-4 py-3 bg-white/80 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        </div>
+                        <div class="form-group">
+                            <label for="casePrompt" class="block text-sm font-medium text-secondary-700 mb-1">Case Description:</label>
+                            <textarea id="casePrompt" name="casePrompt" rows="4" required
+                                class="w-full px-4 py-3 bg-white/80 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"></textarea>
+                        </div>
+
+                        <!-- WAV Uploads -->
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">
+                            Upload Soundtracks for Spots 1–4 (WAV only):
+                            </label>
+                        
+                            <div class="flex gap-4 flex-wrap">
+                            <label for="spot1" class="flex flex-col items-start text-sm text-gray-700">
+                                Spot 1:
+                                <input type="file" name="spot1" id="spot1" accept=".wav" required class="file-input mt-1">
+                            </label>
+                        
+                            <label for="spot2" class="flex flex-col items-start text-sm text-gray-700">
+                                Spot 2:
+                                <input type="file" name="spot2" id="spot2" accept=".wav" required class="file-input mt-1">
+                            </label>
+                        
+                            <label for="spot3" class="flex flex-col items-start text-sm text-gray-700">
+                                Spot 3:
+                                <input type="file" name="spot3" id="spot3" accept=".wav" required class="file-input mt-1">
+                            </label>
+                        
+                            <label for="spot4" class="flex flex-col items-start text-sm text-gray-700">
+                                Spot 4:
+                                <input type="file" name="spot4" id="spot4" accept=".wav" required class="file-input mt-1">
+                            </label>
+                            </div>
+                        </div>
+  
+
+
+                        <button type="submit" 
+                            class="px-6 py-3 bg-primary-600 text-white rounded-lg shadow hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105">
+                            Create Case
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Cases List -->
+                <div class="cases-list animate-slide-in" style="animation-delay: 100ms">
+                    <h2 class="text-2xl font-bold text-primary-700 mb-6">Existing Cases</h2>
+                    <div id="casesContainer" class="glass rounded-2xl p-8 shadow-lg"></div>
+                </div>
+            </div>
+            
+            <!-- Sessions Section -->
+            <div class="content-section hidden" id="sessions">
+                <h1 class="text-5xl font-extrabold text-secondary-800 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-800">Chat Sessions</h1>
+                
+                <!-- Sessions Info -->
+                <div class="glass rounded-2xl p-6 shadow-lg mb-8 animate-slide-in bg-primary-50/50 border border-primary-100">
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h2 class="text-lg font-bold text-primary-700 mb-2">About Sessions</h2>
+                            <p class="text-sm text-gray-600 mb-2">Sessions are read-only transcripts of past conversations. They're automatically saved when you close a chat window.</p>
+                            <p class="text-sm text-gray-600">Click on any session below to view its transcript. These are for reference only and can't be edited or continued.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sessions List -->
+                <div class="sessions-list animate-slide-in">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-primary-700">Saved Sessions</h2>
+                        <button id="deleteAllSessionsBtn" class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Delete All Sessions
+                        </button>
+                    </div>
+                    <div id="sessionsContainer" class="glass rounded-2xl p-8 shadow-lg">
+                        <!-- Search Sessions -->
+                        <div class="flex mb-6 bg-white/60 rounded-lg overflow-hidden shadow-sm">
+                            <input type="text" id="sessionSearch" placeholder="Search sessions by case name, user, content, or date..." class="flex-1 px-4 py-3 bg-transparent border-none focus:outline-none focus:ring-0">
+                            <button id="clearSearchButton" class="px-4 text-gray-400 hover:text-gray-600 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Sessions will be loaded here -->
+                        <div id="sessionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile Section (Hidden) -->
+            <div class="content-section hidden" id="profile">
+                <h1 class="text-5xl font-extrabold text-secondary-800 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-800">About</h1>
+                
+                <!-- About the App -->
+                <div class="glass rounded-2xl p-8 shadow-lg mb-8 animate-slide-in">
+                    <h2 class="text-2xl font-bold text-primary-700 mb-6">About This Application</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-700">This AI Case Manager provides a powerful interface for managing clinical cases and practicing medical decision-making with AI assistance.</p>
+                        <div class="border-l-4 border-primary-500 pl-4 py-2 bg-primary-50/50 rounded-r-lg">
+                            <h3 class="font-bold text-primary-700 mb-1">Developers</h3>
+                            <p class="text-gray-600 italic">Information about the developers will be available here in future updates.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Overview -->
+                <div class="glass rounded-2xl p-8 shadow-lg mb-8 animate-slide-in" style="animation-delay: 100ms">
+                    <h2 class="text-2xl font-bold text-primary-700 mb-6">Key Features</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white/60 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                <h3 class="font-bold text-primary-700">Case Management</h3>
+                            </div>
+                            <p class="text-gray-600">Create, organize, and manage clinical cases for practice and learning.</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                                <h3 class="font-bold text-primary-700">AI Conversations</h3>
+                            </div>
+                            <p class="text-gray-600">Interactive chat interface with AI for clinical reasoning and decision-making.</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                                <h3 class="font-bold text-primary-700">Voice Interaction</h3>
+                            </div>
+                            <p class="text-gray-600">Speech-to-text and text-to-speech capabilities for hands-free interaction.</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <h3 class="font-bold text-primary-700">Differential Diagnosis</h3>
+                            </div>
+                            <p class="text-gray-600">Document and track your diagnostic reasoning with integrated tools.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Version Info -->
+                <div class="glass rounded-2xl p-8 shadow-lg animate-slide-in" style="animation-delay: 200ms">
+                    <h2 class="text-2xl font-bold text-primary-700 mb-6">Version Information</h2>
+                    <div class="bg-white/60 p-4 rounded-lg shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-700"><span class="font-medium">Version:</span> <span class="text-primary-700">1.0.0</span></p>
+                                <p class="text-gray-700"><span class="font-medium">Last Updated:</span> <span class="text-primary-700">2023</span></p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500">© 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Controls Bar -->
+    <div class="fixed bottom-0 left-0 right-0 glass-dark text-white p-4 flex justify-between items-center z-40">
+        <div class="api-status flex items-center space-x-3">
+            <!-- API Status -->
+            <p class="m-0 flex items-center">
+                <span class="inline-block w-3 h-3 rounded-full bg-gray-500 mr-2" id="apiStatusIndicator"></span>
+                API: <span id="apiStatus" class="font-medium ml-1">Checking...</span>
+            </p>
+            <button id="reconnectButton" class="px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded transition-colors flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Reconnect
+            </button>
+            <!-- RPI Status -->
+            <p class="m-0 flex items-center">
+                <span class="inline-block w-3 h-3 rounded-full bg-gray-500 mr-2" id="rpiStatusIndicator"></span>
+                RPI: <span id="rpiStatus" class="font-medium ml-1">Checking...</span>
+            </p>
+
+        </div>
+        <div class="flex space-x-2">
+            <button id="voiceSettingsButton" class="px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded transition-colors flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+                Voice Settings
+            </button>
+            <button id="openConfigButton" class="px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded transition-colors flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                API Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Popup -->
+    <div class="chat-popup fixed hidden flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-2xl h-4/5 glass rounded-2xl shadow-2xl z-50 border border-primary-200/30" id="chatPopup">
+        <div class="chat-header bg-primary-600 text-white p-4 rounded-t-2xl flex justify-between items-center">
+            <h3 id="chatTitle" class="font-semibold text-lg">Chat</h3>
+            <div class="flex space-x-2">
+              <button
+                class="bg-white text-primary-600 text-sm font-semibold px-3 py-1 rounded hover:bg-gray-100 transition"
+                onclick="finishDiagnosis()">Finish and Diagnose</button>
+              <button
+                class="close-chat text-white text-xl hover:opacity-80 focus:outline-none transition-opacity"
+                onclick="closeChat()">×</button>
+            </div>
+          </div>
+          
+        <div class="chat-messages flex-1 overflow-y-auto p-5 space-y-4" id="chatMessages"></div>
+        <div class="chat-input-container">
+            <textarea id="userInput" placeholder="Type your message..." class="chat-input"></textarea>
+            <button id="micButton" onclick="toggleSpeechRecognition()" class="mic-button" title="Click to start/stop voice input">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M8.25 4.5a3.75 3.75 0 117.5 0v8.25a3.75 3.75 0 11-7.5 0V4.5z" />
+                    <path d="M6 10.5a.75.75 0 01.75.75v1.5a5.25 5.25 0 1010.5 0v-1.5a.75.75 0 011.5 0v1.5a6.751 6.751 0 01-6 6.709v2.291h3a.75.75 0 010 1.5h-7.5a.75.75 0 010-1.5h3v-2.291a6.751 6.751 0 01-6-6.709v-1.5A.75.75 0 016 10.5z" />
+                </svg>
+            </button>
+            <button onclick="sendMessage()" class="send-button">Send</button>
+        </div>
+    </div>
+
+    <!-- API Key Configuration Modal -->
+    <div class="modal hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-sm" id="apiKeyModal">
+        <div class="modal-content glass rounded-2xl shadow-2xl w-11/12 max-w-md max-h-[90vh] overflow-auto animate-fade-in">
+            <div class="modal-header flex justify-between items-center p-6 border-b border-gray-200/30">
+                <h3 class="text-xl font-bold text-primary-700">API Configuration</h3>
+                <button class="close-modal text-2xl text-gray-500 hover:text-gray-700 focus:outline-none transition-colors" onclick="closeApiKeyModal()">×</button>
+            </div>
+            <div class="modal-body p-6 space-y-5">
+                <div class="form-group">
+                    <p class="mb-3 text-primary-700">Using server-configured API key. No need to enter your own key.</p>
+                </div>
+                <div class="form-group">
+                    <label for="modelSelect" class="block text-sm font-medium text-secondary-700 mb-1">Model:</label>
+                    <select id="modelSelect" 
+                        class="w-full px-4 py-3 bg-white/80 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                        <option value="gpt-4">GPT-4 (if you have access)</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo (if you have access)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="temperatureInput" class="block text-sm font-medium text-secondary-700 mb-1">Temperature: <span id="temperatureValue" class="ml-2">0.7</span></label>
+                    <input type="range" id="temperatureInput" min="0" max="1" step="0.1" value="0.7"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                </div>
+            </div>
+            <div class="modal-footer border-t border-gray-200/30 p-6 flex justify-end">
+                <button onclick="saveApiConfig()"
+                    class="px-5 py-2.5 bg-primary-600 text-white rounded-lg shadow hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Settings Modal -->
+    <div class="modal hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-sm" id="voiceSettingsModal">
+        <div class="modal-content glass rounded-2xl shadow-2xl w-11/12 max-w-md max-h-[90vh] overflow-auto animate-fade-in">
+            <div class="modal-header flex justify-between items-center p-6 border-b border-gray-200/30">
+                <h3 class="text-xl font-bold text-primary-700">Voice Settings</h3>
+                <button class="close-modal text-2xl text-gray-500 hover:text-gray-700 focus:outline-none transition-colors" onclick="closeVoiceSettingsModal()">×</button>
+            </div>
+            <div class="modal-body p-6 space-y-5">
+                <div class="form-group">
+                    <label for="voiceSelect" class="block text-sm font-medium text-secondary-700 mb-1">Voice:</label>
+                    <select id="voiceSelect" 
+                        class="w-full px-4 py-3 bg-white/80 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <!-- Voice options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rateInput" class="block text-sm font-medium text-secondary-700 mb-1">Rate: <span id="rateValue" class="ml-2">1.0</span></label>
+                    <input type="range" id="rateInput" min="0.5" max="2" step="0.1" value="1.0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                </div>
+                <div class="form-group">
+                    <label for="pitchInput" class="block text-sm font-medium text-secondary-700 mb-1">Pitch: <span id="pitchValue" class="ml-2">1.0</span></label>
+                    <input type="range" id="pitchInput" min="0.5" max="2" step="0.1" value="1.0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                </div>
+                <div class="form-group">
+                    <label for="volumeInput" class="block text-sm font-medium text-secondary-700 mb-1">Volume: <span id="volumeValue" class="ml-2">1.0</span></label>
+                    <input type="range" id="volumeInput" min="0" max="1" step="0.1" value="1.0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                </div>
+                <div class="mt-4">
+                    <button id="testVoiceButton" class="px-4 py-2 bg-secondary-500 text-white rounded-lg shadow hover:bg-secondary-600 focus:outline-none transition-colors">
+                        Test Voice
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer border-t border-gray-200/30 p-6 flex justify-end">
+                <button onclick="saveVoiceSettings()"
+                    class="px-5 py-2.5 bg-primary-600 text-white rounded-lg shadow hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transcript Popup for Sessions -->
+    <div class="chat-popup fixed hidden flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-2xl h-4/5 glass rounded-2xl shadow-2xl z-50 border border-secondary-200/30" id="transcriptPopup">
+        <div class="chat-header bg-secondary-600 text-white p-4 rounded-t-2xl flex justify-between items-center">
+            <h3 id="transcriptTitle" class="font-semibold text-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Session Transcript
+            </h3>
+            <button class="close-chat text-2xl hover:opacity-80 focus:outline-none transition-opacity" onclick="closeTranscript()">×</button>
+        </div>
+        <div class="chat-messages flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50/70" id="transcriptMessages"></div>
+        <div class="transcript-footer bg-gray-50 p-3 rounded-b-2xl flex justify-between items-center">
+            <span class="text-sm text-gray-500 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Read-only transcript
+            </span>
+            <button onclick="closeTranscript()" class="px-3 py-1.5 bg-secondary-600 hover:bg-secondary-700 text-white text-sm rounded transition-colors">
+                Close
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
