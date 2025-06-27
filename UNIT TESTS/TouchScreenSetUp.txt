@@ -1,0 +1,28 @@
+LCD Driver - https://www.instructables.com/Raspberry-Pi-4B3B-35-Inch-LCD-Touch-DisplayScreen-/?utm_source=chatgpt.com
+
+LCD calibration - https://www.waveshare.com/wiki/3.5inch_RPi_LCD_%28A%29
+
+
+Change output to LCD:
+
+sudo rm -rf LCD-show 
+
+git clone  https://github.com/goodtft/LCD-show.git  
+
+chmod -R 755 LCD-show 
+
+To go back:
+
+cd LCD-show/
+
+sudo ./LCD35-show
+
+
+
+To revert
+
+chmod -R 755 LCD-show 
+
+cd LCD-show/ 
+
+sudo ./LCD-hdmi

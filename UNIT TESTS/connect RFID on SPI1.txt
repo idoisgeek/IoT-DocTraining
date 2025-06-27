@@ -1,0 +1,26 @@
+
+How to connect RFID reader on SPI_1 (so there is enough room for LCD pins):
+
+Wiring for SPI1 with CS1:
+
+SPI Signal	GPIO	Pin
+MOSI	GPIO 20	Pin 38
+MISO	GPIO 19	Pin 35
+SCLK	GPIO 21	Pin 40
+CS1	GPIO 16	Pin 36 ← Your desired CS pin
+
+How to Enable SPI1 with CS2 (GPIO 16):
+You need to modify /boot/config.txt:
+
+sudo nano /boot/config.txt
+
+Add:
+dtoverlay=spi1-3cs
+
+Then reboot:
+sudo reboot
+
+In python code Simple MFRC522:
+
+Self.READER = MFRC522(bus = 1, device = 2)
+
