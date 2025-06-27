@@ -1,0 +1,15 @@
+
+#fill in shortcut_script for RPI to automatically connect BT to ESP and speaker:
+BT_RFID_DEVICE="XX:XX:XX:XX:XX:XX"
+BT_SPEAKER_DEVICE="XX:XX:XX:XX:XX:XX"
+
+#fill in sound_map in RPI code to play correct sound by case/spot;
+# - case_num is the current case number (e.g., 1, 2, 3...)
+# - TAG_IDs are the RFID tag IDs for each body spot (e.g., chest, back, etc.)
+# - Each TAG_ID corresponds to a specific spot number (1–4)
+# - Sound files are saved in: "caseX/Sounds/spotY.wav"
+
+self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot1.wav")
+self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot2.wav")
+self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot3.wav")
+self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot4.wav")
