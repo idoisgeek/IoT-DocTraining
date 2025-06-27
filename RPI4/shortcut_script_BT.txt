@@ -1,0 +1,233 @@
+#!/bin/bash
+
+# Step 1: Make the main script executable
+chmod +x ~/myscript.py
+
+# Step 2: Create integrated startup script with embedded Bluetooth setup
+cat > ~/Desktop/start_rfid_app.sh << 'EOF'
+#!/bin/bash
+
+# Bluetooth device MAC addresses
+BT_RFID_DEVICE="F4:65:0B:47:E6:7A"
+BT_SPEAKER_DEVICE="XX:XX:XX:XX:XX:XX"  # Replace with your Bluetooth speaker MAC address
+
+echo "Starting RFID App..."
+echo "====================="
+
+# Function to check if device is paired
+check_paired() {
+    bluetoothctl info "$1" 2>/dev/null | grep -q "Paired: yes"
+}
+
+# Function to check if device is connected
+check_connected() {
+    bluetoothctl info "$1" 2>/dev/null | grep -q "Connected: yes"
+}
+
+# Function to check if rfcomm is bound
+check_rfcomm() {
+    ls /dev/rfcomm1 2>/dev/null >/dev/null 2>&1
+}
+
+# Function to setup Bluetooth devices
+setup_bluetooth() {
+    echo "Setting up Bluetooth devices..."
+    
+    # Enable Bluetooth service
+    echo "- Enabling Bluetooth service..."
+    sudo systemctl start bluetooth
+    sleep 2
+    
+    # Setup RFID device
+    echo "- Setting up RFID device ($BT_RFID_DEVICE)..."
+    
+    if ! check_paired "$BT_RFID_DEVICE"; then
+        echo "  Pairing RFID device..."
+        (echo "power on"; echo "agent on"; echo "default-agent"; echo "scan on"; sleep 5; echo "scan off"; echo "pair $BT_RFID_DEVICE"; echo "trust $BT_RFID_DEVICE"; echo "quit") | bluetoothctl
+        sleep 3
+    fi
+    
+    if ! check_connected "$BT_RFID_DEVICE"; then
+        echo "  Connecting RFID device..."
+        (echo "power on"; echo "connect $BT_RFID_DEVICE"; echo "quit") | bluetoothctl
+        sleep 3
+    fi
+    
+    # Bind RFCOMM if needed
+    if ! check_rfcomm; then
+        echo "  Binding RFCOMM channel..."
+        sudo rfcomm bind 1 $BT_RFID_DEVICE 2>/dev/null
+        sleep 2
+    fi
+    
+    # Setup Bluetooth speaker if MAC address is provided
+    if [ "$BT_SPEAKER_DEVICE" != "XX:XX:XX:XX:XX:XX" ]; then
+        echo "- Setting up Bluetooth speaker ($BT_SPEAKER_DEVICE)..."
+        
+        if ! check_paired "$BT_SPEAKER_DEVICE"; then
+            echo "  Pairing Bluetooth speaker..."
+            (echo "power on"; echo "agent on"; echo "default-agent"; echo "scan on"; sleep 5; echo "scan off"; echo "pair $BT_SPEAKER_DEVICE"; echo "trust $BT_SPEAKER_DEVICE"; echo "quit") | bluetoothctl
+            sleep 3
+        fi
+        
+        if ! check_connected "$BT_SPEAKER_DEVICE"; then
+            echo "  Connecting Bluetooth speaker..."
+            (echo "power on"; echo "connect $BT_SPEAKER_DEVICE"; echo "quit") | bluetoothctl
+            sleep 3
+        fi
+        
+        # Set as default audio output
+        echo "  Setting speaker as default audio..."
+        sleep 3
+        
+        CARD_NUM=$(pactl list cards short | grep -i bluez | head -1 | cut -f1)
+        if [ -n "$CARD_NUM" ]; then
+            pactl set-card-profile "$CARD_NUM" a2dp_sink 2>/dev/null
+            sleep 2
+            
+            BT_SINK=$(pactl list sinks short | grep -i bluez | head -1 | cut -f2)
+            if [ -n "$BT_SINK" ]; then
+                pactl set-default-sink "$BT_SINK"
+                pactl set-sink-volume "$BT_SINK" 70%
+                echo "  Audio setup complete ✓"
+            fi
+        fi
+    fi
+    
+    echo "Bluetooth setup complete ✓"
+    echo "====================="
+}
+
+# Function to cleanup on exit
+cleanup() {
+    echo ""
+    echo "====================="
+    echo "Cleaning up..."
+    sudo rfcomm release 1 2>/dev/null
+    
+    if [ "$BT_SPEAKER_DEVICE" != "XX:XX:XX:XX:XX:XX" ]; then
+        echo "Disconnecting Bluetooth speaker..."
+        bluetoothctl disconnect "$BT_SPEAKER_DEVICE" 2>/dev/null
+    fi
+    
+    echo "Cleanup complete."
+}
+
+# Set trap to cleanup on script exit
+trap cleanup EXIT
+
+# Main execution
+setup_bluetooth
+
+echo "Starting Python application..."
+echo "====================="
+
+# CONFIGURE YOUR PATHS HERE:
+PROJECT_DIR="/home/pi/myproject"          # Change this to your project directory path
+VENV_NAME="myvenv"                        # Change this to your virtual environment name
+SCRIPT_NAME="myscript.py"                 # Change this to your Python script name
+
+# Change to project directory
+cd "$PROJECT_DIR"
+
+# Check if virtual environment exists
+if [ ! -d "$VENV_NAME" ]; then
+    echo "Error: Virtual environment '$VENV_NAME' not found in $PROJECT_DIR!"
+    echo "Please create it first: python -m venv $VENV_NAME"
+    read -p "Press Enter to exit..."
+    exit 1
+fi
+
+# Activate virtual environment
+source "$VENV_NAME/bin/activate"
+
+# Check if script exists
+if [ ! -f "$SCRIPT_NAME" ]; then
+    echo "Error: $SCRIPT_NAME not found in $PROJECT_DIR!"
+    read -p "Press Enter to exit..."
+    exit 1
+fi
+
+# Run the Python application
+echo "Launching RFID application..."
+python "$SCRIPT_NAME"
+
+# Cleanup will be handled by the trap
+EOF
+
+# Step 3: Make the startup script executable
+chmod +x ~/Desktop/start_rfid_app.sh
+
+# Step 4: Create the main desktop shortcut with integrated Bluetooth setup
+cat > ~/Desktop/RFIDApp.desktop << 'EOF'
+[Desktop Entry]
+Name=RFID Case Selector
+Comment=RFID Case Selector with Integrated Bluetooth Setup
+Exec=lxterminal --title="RFID App" -e bash -c "~/Desktop/start_rfid_app.sh; echo 'Press any key to close...'; read -n 1"
+Path=/home/pi/myproject
+Icon=/home/pi/myproject/icon.png
+Terminal=false
+Type=Application
+Categories=Application;
+StartupNotify=true
+EOF
+
+# Step 5: Make the desktop file executable
+chmod +x ~/Desktop/RFIDApp.desktop
+
+# Step 6: Create a silent version (no terminal window)
+cat > ~/Desktop/RFIDApp_Silent.desktop << 'EOF'
+[Desktop Entry]
+Name=RFID App (Silent)
+Comment=RFID Case Selector - Silent Mode
+Exec=bash ~/Desktop/start_rfid_app.sh
+Path=/home/pi/myproject
+Icon=/home/pi/myproject/icon.png
+Terminal=false
+Type=Application
+Categories=Application;
+StartupNotify=true
+EOF
+
+chmod +x ~/Desktop/RFIDApp_Silent.desktop
+
+# Step 7: Create a debug version with detailed output
+cat > ~/Desktop/RFIDApp_Debug.desktop << 'EOF'
+[Desktop Entry]
+Name=RFID App (Debug)
+Comment=RFID Case Selector - Debug Mode with Detailed Output
+Exec=lxterminal --title="RFID App Debug" -e bash -c "set -x; ~/Desktop/start_rfid_app.sh; echo 'Debug session ended. Press any key to close...'; read -n 1"
+Path=/home/pi/myproject
+Icon=/home/pi/myproject/icon.png
+Terminal=false
+Type=Application
+Categories=Application;
+StartupNotify=true
+EOF
+
+chmod +x ~/Desktop/RFIDApp_Debug.desktop
+
+echo "Desktop shortcuts with integrated Bluetooth setup created successfully!"
+echo ""
+echo "Created shortcuts:"
+echo "- RFIDApp.desktop (main app with terminal output)"
+echo "- RFIDApp_Silent.desktop (runs silently in background)"
+echo "- RFIDApp_Debug.desktop (detailed debug output)"
+echo ""
+echo "Features:"
+echo "✓ Bluetooth setup happens automatically when you click the shortcut"
+echo "✓ No separate pre-setup steps required"
+echo "✓ Automatic pairing and connection of devices"
+echo "✓ RFCOMM binding integrated into startup"
+echo "✓ Bluetooth speaker setup and audio configuration"
+echo "✓ Automatic cleanup when app closes"
+echo "✓ Error handling and status messages"
+echo ""
+echo "To configure Bluetooth speaker:"
+echo "1. Edit ~/Desktop/start_rfid_app.sh"
+echo "2. Replace 'XX:XX:XX:XX:XX:XX' with your speaker's MAC address"
+echo ""
+echo "Usage:"
+echo "- Double-click any desktop shortcut to start the app"
+echo "- Bluetooth devices will connect automatically"
+echo "- App will start once Bluetooth setup is complete"
