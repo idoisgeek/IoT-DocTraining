@@ -6,3 +6,6 @@ In this version, both the RFID reader and the speaker are directly connected to 
 
 shortcut_script – Setup script for the Bluetooth version.
 This script creates a desktop shortcut that automatically connects the Raspberry Pi to both the ESP32 and the Bluetooth speaker (using their MAC addresses) on each startup.
+
+shortcut_code_WIRE - Setup for the wire version.
+A desktop shortcut code to launch application.
