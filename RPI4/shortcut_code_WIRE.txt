@@ -1,0 +1,17 @@
+Create new shortcut:
+
+Make the script executable:
+chmod +x ~/myscript.py
+
+Create a .desktop shortcut
+Create a new file: nano ~/Desktop/MyScript.desktop
+
+
+[Desktop Entry]
+Name=Run My App
+Comment=Runs the Python app in venv and correct directory
+Exec=lxterminal -e bash -c "cd /home/pi/myproject && source myvenv/bin/activate && python myscript.py"
+Path=/home/pi/myproject
+Icon==/home/pi/myproject/icon.png
+Terminal=false
+Type=Application
