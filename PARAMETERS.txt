@@ -1,15 +1,36 @@
+---Shortcut generation---
 
-#fill in shortcut_script for RPI to automatically connect BT to ESP and speaker:
-BT_RFID_DEVICE="XX:XX:XX:XX:XX:XX"
-BT_SPEAKER_DEVICE="XX:XX:XX:XX:XX:XX"
+Bluetooth Connection Setup:
+BT_RFID_DEVICE    = "XX:XX:XX:XX:XX:XX"   // MAC address of ESP32 RFID device  
+BT_SPEAKER_DEVICE = "XX:XX:XX:XX:XX:XX"   // MAC address of Bluetooth speaker  
 
-#fill in sound_map in RPI code to play correct sound by case/spot;
-# - case_num is the current case number (e.g., 1, 2, 3...)
-# - TAG_IDs are the RFID tag IDs for each body spot (e.g., chest, back, etc.)
-# - Each TAG_ID corresponds to a specific spot number (1–4)
-# - Sound files are saved in: "caseX/Sounds/spotY.wav"
+Used in a startup script on RPi to auto-connect both devices via Bluetooth.
 
+---RPI---
+
+Sound Map Setup:
+case_num  = current case number (e.g., 1, 2, 3...)
+TAG_ID    = RFID tag ID for each body spot (e.g., chest, back...)
+spotX.wav = sound file for spot number X (1–4)
+
+Sound file path format:
+"caseX/Sounds/spotY.wav"
+
+Mapping format:
 self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot1.wav")
 self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot2.wav")
 self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot3.wav")
 self.sound_map[(case_num, "TAG_ID")] = os.path.join(case_path, "spot4.wav")
+
+---ESP32---
+
+RFID Module (MFRC522):
+RST_PIN = 22   // Reset pin for RFID module  
+SS_PIN  = 5    // Slave Select (SDA) pin for RFID module  
+
+Bluetooth:
+Device name = "ESP32_RFID"
+
+Timing:
+TAG_TIMEOUT   = 2000 ms  // If no tag is detected for 2s, consider it removed  
+SEND_INTERVAL = 500 ms   // While tag is present, send ID every 500ms
