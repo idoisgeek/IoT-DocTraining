@@ -33,7 +33,7 @@ SECRETS/ — Contains OpenAI API key
 ## **Libraries Used:**
 ESP32: MFRC522 = 1.4.12, BluetoothSerial = 1.1.0
 
-Raspberry Pi (RPI): pyaudio, PyQt5, MFRC522, GPIO, serial
+Raspberry Pi (RPI): pyaudio = 0.2.13, PyQt5 = 5.15.9, MFRC522 =  0.0.7, GPIO =  0.7.1a4, pyserial = 3.5
 
 ## **Hardware Setup:**
 ![Smart Stethoscope Diagram](finalScheme.pdf)
